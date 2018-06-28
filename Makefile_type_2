@@ -1,0 +1,26 @@
+TARGET = sumsub_2
+SRC_FILES=main.c src/sub.c src/sum.c
+OBJ_FILES=$(patsubst %.c, %.o, ${SRC_FILES})
+DEP+FILES=$(patsubst %.c, %.dep, ${SRC_FILES})
+
+VPATH = SRC_FILES
+
+CFLAGS = -c -g
+LDFLAGS = -g
+
+all: ${TARGET}
+
+${TARGET}: ${OBJ_FILES}
+	gcc ${LDFLAGS} -o ${TARGET} ${OBJ_FILES}
+	@echo "make all"
+
+%.o:%.c
+	gcc ${CFLAGS} $< -o $@
+clean: 
+	rm *.o ${TARGET}
+
+%.dep: %.c
+	@set -e; rm -f $@; \
+	gcc -MM $(CFLAGS) $< > $@.$$$$; \
+	sed `s,\($*\)\.o[ :]*,1.o $@ : ,g` < $@.$$$$ > $@;\
+	rm -f $@.$$$$

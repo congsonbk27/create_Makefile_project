@@ -1,0 +1,11 @@
+sumsub_0 : main.o sum.o sub.o
+	gcc -o sum_sub_0 main.o sum.o sub.o
+
+main.o : main.c src/sum.h src/sub.h
+	gcc -c -o main.o main.c
+
+sum.o : src/sum.c
+	gcc -c -o sum.o src/sum.c
+
+sub.o : src/sub.c
+	gcc -c -o sub.o src/sub.c
